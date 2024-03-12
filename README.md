@@ -34,3 +34,12 @@ Make sure to deploy the output of `npm run build`
 
 - `build/server`
 - `build/client`
+
+
+## ROADMAP
+- to json
+- prompt and messages/conversation history construction
+- other models
+- templates for evaluation
+- generate a conversation to test the prompt against
+- show updates on this
