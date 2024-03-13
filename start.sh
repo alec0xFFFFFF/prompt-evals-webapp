@@ -15,4 +15,5 @@ echo 1 > /proc/sys/vm/overcommit_memory
 
 npx prisma migrate deploy
 npm run build
+ls -d */
 npm run start
