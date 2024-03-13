@@ -6,7 +6,7 @@ import {Message} from "~/types/MessageInterface";
 import {useActionData, useNavigation} from "@remix-run/react";
 import EvaluateForm from "~/components/EvaluateForm";
 import Results from "~/components/Results";
-import React, {useEffect} from "react";
+import React from "react";
 import "../styles/app.css";
 
 
@@ -72,8 +72,7 @@ export async function action({ request }: { request: Request }) {
       const res = [];
       res.push(results);
 
-      console.log(res);
-    return json({res});
+    return json({results:res});
   } catch (error) {
     console.error("Error evaluating prompt:", error);
     return json({ error: "An error occurred while evaluating the prompt." }, { status: 500 });
@@ -135,19 +134,12 @@ export default function Evaluate() {
   const data = useActionData<typeof action>();
   const navigation = useNavigation();
 
-    useEffect(() => {
-    if (data) {
-      console.log("data");
-      console.log(data);
-    }
-  }, [data]);
-
   return (
       <div className="bg-gray-900 text-white min-h-screen">
           <div className="max-w-7xl mx-auto px-4 py-12">
               <h1 className="text-4xl font-extrabold tracking-tight text-center mb-8">Evaluate LLM Prompts</h1>
-              <EvaluateForm data={data} api={'/evaluate'} navigation={navigation}/>
-              {data && Array.isArray(data.results) && <Results data={data} navigation={navigation}/>}
+              <EvaluateForm api={'/evaluate'} navigation={navigation}/>
+              {data && <Results data={data} navigation={navigation}/>}
           </div>
       </div>);
 }

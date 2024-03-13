@@ -45,3 +45,4 @@ Make sure to deploy the output of `npm run build`
 - generate a conversation to test the prompt against
 - show updates on this
 - fix run in parallel
+- persistence

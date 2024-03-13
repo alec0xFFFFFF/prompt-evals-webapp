@@ -1,20 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PromptTab from './PromptTab';
 import EvaluatorTab from './EvaluatorTab';
-import {Form} from "@remix-run/react";
+import {Form, useSubmit} from "@remix-run/react";
 import RunOptions from "~/components/RunOptions";
 
 interface EvaluateFormProps {
-    data: any;
     api: string;
     navigation: any;
 }
 
-export default function EvaluateForm({data, api, navigation}: EvaluateFormProps) {
+export default function EvaluateForm({api, navigation}: EvaluateFormProps) {
+  const submit = useSubmit();
   const [requestPending, setRequestPending] = useState(false);
   const [activeTab, setActiveTab] = useState('prompt');
   const [showKey, setShowKey] = useState(false);
-  const [saveKey, setSaveKey] = useState(false);
   const [numRuns, setNumRuns] = useState(1);
   const [runInParallel, setRunInParallel] = useState(false);
 
@@ -43,13 +42,8 @@ export default function EvaluateForm({data, api, navigation}: EvaluateFormProps)
 
   const storedApiKey = typeof window !== 'undefined' ? localStorage.getItem('openaiKey') || '' : '';
   const [apiKey, setApiKey] = useState(storedApiKey);
+  const [saveKey, setSaveKey] = useState(storedApiKey != '');
 
-  useEffect(() => {
-    if (data) {
-      // Initialize form fields or perform data processing based on the received data
-      // ...
-    }
-  }, [data]);
   const handleToggleKey = () => {
     setShowKey(!showKey);
   };
@@ -99,19 +93,10 @@ export default function EvaluateForm({data, api, navigation}: EvaluateFormProps)
       localStorage.removeItem('openaiKey');
     }
 
-    try {
-      const response = await fetch(api, {
-        method: 'POST',
-        body: formData,
-      });
-      // todo figure out why this is failing
-      const data = await response.json();
-      console.log(data);
-      setRequestPending(false);
-    } catch (error) {
-      console.error('Error:', error);
-      setRequestPending(false);
-    }
+    submit(
+        formData, //Notice this change
+        { method: "post", action: api }
+      )
   };
 
   const handleNumRunsChange = (value: number) => {
@@ -124,7 +109,7 @@ export default function EvaluateForm({data, api, navigation}: EvaluateFormProps)
 
   return (
     <div>
-      <Form action={api} method="post" className="space-y-8" onSubmit={handleSubmit}>
+      <Form action={api} method="post" className="space-y-8">
           <div>
             <label htmlFor="apiKey" className="block text-sm font-medium mb-2">
               OpenAI API Key
