@@ -11,6 +11,7 @@ import "../styles/app.css";
 
 
 export async function action({ request }: { request: Request }) {
+    console.log("received action request");
   const formData = await request.formData();
   const prompt = formData.get("prompt");
   const apiKey = formData.get("apiKey");
