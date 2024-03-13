@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
-    "dev": "remix vite:dev -c \"npm run dev:serve\"",
+    "dev": "remix vite:dev",
     "dev:serve": "binode --require ./mocks -- @remix-run/serve:remix-serve ./build/index.js",
     "format": "prettier --write .",
     "format:repo": "npm run format && npm run lint -- --fix",
