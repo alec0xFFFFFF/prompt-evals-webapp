@@ -37,9 +37,11 @@ Make sure to deploy the output of `npm run build`
 
 
 ## ROADMAP
-- to json
+- to json in validation i.e. format and fields
+- add messages and message/conversation generation
 - prompt and messages/conversation history construction
 - other models
 - templates for evaluation
 - generate a conversation to test the prompt against
 - show updates on this
+- fix run in parallel
